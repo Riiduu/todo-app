@@ -7,9 +7,12 @@ html {
     font-optical-sizing: auto;
     font-style: normal;
 
+    background: var(--gray-600);
+
+
     --purple: #8284fa;
     --purple-dark: #5e60ce;
-    --blue: #4ra8de;
+    --blue: #4EA8DE;
     --blue-dark: #1e6f9f;
 
     --gray-100: #f2f2f2;

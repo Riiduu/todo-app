@@ -6,6 +6,7 @@ import {
     createBrowserRouter,
     RouterProvider,
 } from "react-router-dom";
+import TopBanner from "./components/TopBanner.tsx";
 
 const router = createBrowserRouter([
     {
@@ -20,6 +21,7 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
+      <TopBanner />
       <RouterProvider router={router} />
   </StrictMode>,
 )
