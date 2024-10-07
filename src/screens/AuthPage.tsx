@@ -1,11 +1,7 @@
 import GoogleLogo from '../assets/Google-logo.png';
 import '../firebase.ts';
 
-import {getAuth, signInWithPopup, GoogleAuthProvider} from "firebase/auth";
-
-const provider = new GoogleAuthProvider();
-provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
-
+import {getAuth, signInWithPopup, setPersistence, browserLocalPersistence, GoogleAuthProvider} from "firebase/auth";
 
 // Sign in with popup
 const auth = getAuth();
@@ -15,21 +11,38 @@ const AuthPage = ({setToken}, {guestEntry}) => {
 
 
     const googleSignIn = () => {
-        signInWithPopup(auth, provider)
-            .then((result) => {
-                // This gives you a Google Access Token. You can use it to access the Google API.
-                const credential = GoogleAuthProvider.credentialFromResult(result);
+        setPersistence(auth, browserLocalPersistence)
+            .then(() => {
+                const provider = new GoogleAuthProvider();
+                provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 
-                if (credential != null) {
-                    const googleToken = credential.accessToken;
-                    setToken(googleToken)
-                }
-                // IdP data available using getAdditionalUserInfo(result)
-                // ...
-            }).catch((error) => {
-            console.log(error);
-            // ...
-        });
+                signInWithPopup(auth, provider)
+                    .then(() => {
+                        // This gives you a Google Access Token. You can use it to access the Google API.
+                        // const credential = GoogleAuthProvider.credentialFromResult(result);
+                        if (auth.currentUser != null) {
+                            auth.currentUser.getIdToken().then((idToken) => {
+                                setToken(idToken.substring(0, 16))
+                            });
+                        }
+
+                        /*if (credential != null) {
+                            const googleToken = credential.accessToken;
+                            console.log(googleToken)
+                            setToken(googleToken)
+                        }*/
+                        // IdP data available using getAdditionalUserInfo(result)
+                        // ...
+                    }).catch((error) => {
+                    console.log(error);
+
+                    // ...
+                });
+            })
+            .catch((error) => {
+                // Handle Errors here.
+                console.log("Error: " + error)
+            });
     }
 
     return (
@@ -57,4 +70,4 @@ const AuthPage = ({setToken}, {guestEntry}) => {
     )
 }
 
-export default AuthPage
+export default AuthPage;

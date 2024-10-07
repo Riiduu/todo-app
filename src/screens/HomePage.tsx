@@ -1,15 +1,73 @@
 import AddIcon from '../assets/plus.png'
 import clipboard from '../assets/Clipboard.png'
 
+import { collection, query, getDocs, doc, setDoc, getFirestore } from 'firebase/firestore';
+import app from '../firebase.ts';
+
 import {useState, useRef, useEffect} from 'react'
 
 import TodoItem from "../components/TodoItem.tsx";
 
+//console.log(app);
+
+
+
 // @ts-expect-error ---
 const HomePage = ({userToken}) => {
+    const [todos, setTodos] = useState([]);
+
+    const firestore = getFirestore(app);
+
+    // Replace this with the name of the collection you're looking for
+    const collectionName = userToken;
+
+    useEffect(() => {
+        const checkOrCreateCollection = async () => {
+            let todoItemsArray: any[] | ((prevState: never[]) => never[]) = [];
+            try {
+                // Check if the collection exists by attempting to get documents from it
+                const collectionRef = collection(firestore, collectionName);
+                const querySnapshot = await getDocs(collectionRef);
+
+
+
+                if (querySnapshot.empty) {
+                    // If the collection does not exist, create the collection and add a document
+                    const newDocRef = doc(collectionRef);
+
+                    await setDoc(newDocRef, {
+                        todo: 'Write your shit here',
+                        createdAt: new Date(),
+                    });
+
+                } else {
+                    const q = query(collection(firestore, collectionName));
+
+                    const querySnapshot = await getDocs(q);
+                    querySnapshot.forEach((doc) => {
+                        // doc.data() is never undefined for query doc snapshots
+                        //console.log(doc.id, " => ", doc.data().todo);
+
+                        todoItemsArray.push(doc.data().todo)
+                    });
+                }
+
+            } catch (error) {
+                console.error('Error checking or creating collection: ', error);
+            } finally {
+                //console.log(todoItemsArray)
+
+                setTodos(todoItemsArray)
+                console.log(todos)
+            }
+        };
+
+        checkOrCreateCollection();
+    }, [collectionName]);
+
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const todos = [
+    /*const todos = [
         'feed the cats',
         'kill the cats',
         'pet Aino on the head',
@@ -18,17 +76,13 @@ const HomePage = ({userToken}) => {
         'kill the cats',
         'pet Aino on the head',
         'give Aino a kiss on the left cheek'
-    ];
-
-    const addTodoItem = () => {
-
-    }
+    ];*/
 
     return (
         <div className="max-w-screen-lg flex flex-col justify-center relative mx-auto">
-            <div className="flex justify-center space-x-2 absolute mb-24 w-full">
+            <div className="flex justify-center space-x-2 absolute top-[-20px] w-full">
                 <input ref={inputRef} type="text" className="w-full rounded-md px-5 h-12 outline-none bg-[var(--gray-500)] text-[var(--gray-200)]" placeholder="Enter Todo" />
-                <button onClick={addTodoItem} type="submit" className="bg-[var(--blue)] text-white px-5 rounded-md h-12 flex justify-center items-center"><span className="hidden sm:block">Add</span>
+                <button onClick={() => {}} type="submit" className="bg-[var(--blue)] text-white px-5 rounded-md h-12 flex justify-center items-center"><span className="hidden sm:block">Add</span>
                     <img src={AddIcon} className="sm:ml-2" alt=""/></button>
             </div>
 
@@ -61,12 +115,13 @@ const HomePage = ({userToken}) => {
 
                 :
 
-                <div className="w-full flex flex-col justify-center items-center text-center overflow-y-auto overflow-x-clip h-96 absolute top-24 pt-60">
+                <div className="w-full flex flex-col justify-start items-center text-center overflow-y-auto overflow-x-clip h-96 absolute top-24">
                     {
-                        todos.map((item, key) => {
-                            return <TodoItem todoContent={item} key={key}/>
+                        todos.map((item, index) => {
+                            return <TodoItem todoContent={item} key={index}/>
                         })
                     }
+
                 </div>
                 }
             </div>

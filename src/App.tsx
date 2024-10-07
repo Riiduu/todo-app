@@ -5,10 +5,13 @@ import AuthPage from "./screens/AuthPage.tsx";
 // @ts-expect-error ---
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import app from './firebase.ts';
+import {getAuth} from "firebase/auth"
+
+const auth = getAuth();
 
 
 function App() {
-    const [loggedIn, setLoggedIn] = useState(false);
+    const [loggedIn, setLoggedIn] = useState<boolean | null>(null);
     const [token, setToken] = useState(null);
     const isInitialMount = useRef(true);
 

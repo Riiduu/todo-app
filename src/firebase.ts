@@ -14,6 +14,7 @@ const firebaseConfig = {
     apiKey: "AIzaSyBqBU-39qckuoC_d9WzlZI-Pi4bIl4nHc4",
     authDomain: "todo-web-1f4da.firebaseapp.com",
     projectId: "todo-web-1f4da",
+    databaseURL: "https://todo-web-1f4da-default-rtdb.europe-west1.firebasedatabase.app",
     storageBucket: "todo-web-1f4da.appspot.com",
     messagingSenderId: "851343993439",
     appId: "1:851343993439:web:cbc9719cac67aa0db089ea",
