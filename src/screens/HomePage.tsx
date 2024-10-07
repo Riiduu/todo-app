@@ -23,7 +23,7 @@ const HomePage = ({userToken}) => {
 
     useEffect(() => {
         const checkOrCreateCollection = async () => {
-            let todoItemsArray: any[] | ((prevState: never[]) => never[]) = [];
+            const todoItemsArray: any[] | ((prevState: never[]) => never[]) = [];
             try {
                 // Check if the collection exists by attempting to get documents from it
                 const collectionRef = collection(firestore, collectionName);
@@ -37,6 +37,7 @@ const HomePage = ({userToken}) => {
 
                     await setDoc(newDocRef, {
                         todo: 'Write your shit here',
+                        checked: false,
                         createdAt: new Date(),
                     });
 
@@ -57,8 +58,8 @@ const HomePage = ({userToken}) => {
             } finally {
                 //console.log(todoItemsArray)
 
+                // @ts-expect-error ---
                 setTodos(todoItemsArray)
-                console.log(todos)
             }
         };
 
