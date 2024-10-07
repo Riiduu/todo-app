@@ -15,13 +15,13 @@ const router = createBrowserRouter([
     },
     {
         path: '/login',
-        element: <AuthPage />
+        element: <AuthPage setToken={undefined} />
     }
 ]);
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+  <>
       <TopBanner />
       <RouterProvider router={router} />
-  </StrictMode>,
+  </>,
 )

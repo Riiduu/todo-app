@@ -1,9 +1,14 @@
 import AddIcon from '../assets/plus.png'
 import clipboard from '../assets/Clipboard.png'
 
+import {useState, useRef, useEffect} from 'react'
+
 import TodoItem from "../components/TodoItem.tsx";
 
-const HomePage = () => {
+// @ts-expect-error ---
+const HomePage = ({userToken}) => {
+    const inputRef = useRef<HTMLInputElement>(null);
+
     const todos = [
         'feed the cats',
         'kill the cats',
@@ -15,11 +20,15 @@ const HomePage = () => {
         'give Aino a kiss on the left cheek'
     ];
 
+    const addTodoItem = () => {
+
+    }
+
     return (
         <div className="max-w-screen-lg flex flex-col justify-center relative mx-auto">
-            <div className="flex justify-center space-x-2 absolute top-[-15px] w-full">
-                <input type="text" className="w-full rounded-md px-5 py-3 outline-none bg-[var(--gray-500)] text-[var(--gray-200)]" placeholder="Enter Todo" />
-                <button onClick={() => console.log('Submit')} type="submit" className="bg-[var(--blue)] text-white px-5 rounded-md py-3 flex justify-center items-center"><span className="hidden sm:block">Add</span>
+            <div className="flex justify-center space-x-2 absolute mb-24 w-full">
+                <input ref={inputRef} type="text" className="w-full rounded-md px-5 h-12 outline-none bg-[var(--gray-500)] text-[var(--gray-200)]" placeholder="Enter Todo" />
+                <button onClick={addTodoItem} type="submit" className="bg-[var(--blue)] text-white px-5 rounded-md h-12 flex justify-center items-center"><span className="hidden sm:block">Add</span>
                     <img src={AddIcon} className="sm:ml-2" alt=""/></button>
             </div>
 
