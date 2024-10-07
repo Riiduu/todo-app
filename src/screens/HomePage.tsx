@@ -52,7 +52,7 @@ const HomePage = () => {
 
                 :
 
-                <div className="w-full flex flex-col justify-center items-center text-center overflow-y-auto overflow-x-clip h-full absolute top-24 pt-60">
+                <div className="w-full flex flex-col justify-center items-center text-center overflow-y-auto overflow-x-clip h-96 absolute top-24 pt-60">
                     {
                         todos.map((item, key) => {
                             return <TodoItem todoContent={item} key={key}/>
