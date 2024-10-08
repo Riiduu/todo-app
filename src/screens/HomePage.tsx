@@ -81,7 +81,7 @@ const HomePage = ({userToken}) => {
 
     return (
         <div className="max-w-screen-lg flex flex-col justify-center relative mx-auto">
-            <div className="flex justify-center space-x-2 absolute top-[-20px] w-full">
+            <div className="flex justify-center space-x-2 absolute top-[-50px] w-full">
                 <input ref={inputRef} type="text" className="w-full rounded-md px-5 h-12 outline-none bg-[var(--gray-500)] text-[var(--gray-200)]" placeholder="Enter Todo" />
                 <button onClick={() => {}} type="submit" className="bg-[var(--blue)] text-white px-5 rounded-md h-12 flex justify-center items-center"><span className="hidden sm:block">Add</span>
                     <img src={AddIcon} className="sm:ml-2" alt=""/></button>

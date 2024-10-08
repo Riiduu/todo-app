@@ -21,9 +21,7 @@ const AuthPage = ({setToken}, {guestEntry}) => {
                         // This gives you a Google Access Token. You can use it to access the Google API.
                         // const credential = GoogleAuthProvider.credentialFromResult(result);
                         if (auth.currentUser != null) {
-                            auth.currentUser.getIdToken().then((idToken) => {
-                                setToken(idToken.substring(0, 16))
-                            });
+                            setToken(auth.currentUser.uid)
                         }
 
                         /*if (credential != null) {
